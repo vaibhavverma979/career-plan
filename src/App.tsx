@@ -13,6 +13,7 @@ import NGODashboard from "@/pages/NGODashboard";
 import CounselorDashboard from "@/pages/CounselorDashboard";
 import TeacherDashboard from "@/pages/TeacherDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
+import CollegeDashboard from "@/pages/CollegeDashboard";
 import AICareerChat from "@/pages/AICareerChat";
 import ScholarshipAI from "@/pages/Scholarshipaii";
 import CollegeSearch from "@/pages/CollegeSearch";
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/counselor/dashboard" element={<CounselorDashboard />} />
               <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/college/dashboard" element={<CollegeDashboard />} />
               <Route path="/student/career-ai" element={<AICareerChat />} />
               <Route path="/student/scholarship-ai" element={<ScholarshipAI />} />
               <Route path="/student/colleges" element={<CollegeSearch />} />
