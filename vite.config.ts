@@ -10,9 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 5000,
     // THE CRITICAL FIX: Allow all Replit-generated hostnames
     allowedHosts: ['.replit.dev'], 
-    hmr: {
-      port: 5000,
-    },
+    
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
