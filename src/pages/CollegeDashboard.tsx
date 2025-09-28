@@ -20,7 +20,10 @@ import {
   Phone,
   Mail,
   Globe,
-  Star
+  Star,
+  FileText,
+  Presentation,
+  Info
 } from "lucide-react";
 
 const CollegeDashboard = () => {
@@ -38,11 +41,18 @@ const CollegeDashboard = () => {
     { id: 4, name: "Psychology", department: "Arts & Sciences", students: 65, capacity: 80, duration: "4 years" }
   ]);
 
-  const [admissions, setAdmissions] = useState([
-    { id: 1, applicantName: "John Smith", course: "Computer Science", applicationDate: "2024-01-20", status: "pending", testScore: "85%" },
-    { id: 2, applicantName: "Maria Garcia", course: "Business Administration", applicationDate: "2024-01-22", status: "pending", testScore: "78%" },
-    { id: 3, applicantName: "David Wilson", course: "Engineering", applicationDate: "2024-01-18", status: "approved", testScore: "92%" },
-    { id: 4, applicantName: "Lisa Brown", course: "Psychology", applicationDate: "2024-01-25", status: "pending", testScore: "88%" }
+  const [workshops, setWorkshops] = useState([
+    { id: 1, title: "Resume Building Workshop", date: "2024-03-10", instructor: "Career Services", participants: 45 },
+    { id: 2, title: "Interview Skills Training", date: "2024-03-17", instructor: "HR Professional", participants: 32 },
+    { id: 3, title: "Digital Marketing Bootcamp", date: "2024-03-24", instructor: "Industry Expert", participants: 28 },
+    { id: 4, title: "Leadership Development", date: "2024-04-01", instructor: "Management Faculty", participants: 38 }
+  ]);
+
+  const [postAdmissionInfo, setPostAdmissionInfo] = useState([
+    { id: 1, type: "Orientation", title: "New Student Orientation Guide", description: "Complete guide for newly admitted students", status: "Active" },
+    { id: 2, type: "Documentation", title: "Registration Process", description: "Step-by-step registration instructions", status: "Active" },
+    { id: 3, type: "Resources", title: "Campus Facilities Guide", description: "Information about campus amenities and services", status: "Active" },
+    { id: 4, type: "Academic", title: "Course Selection Guidelines", description: "Help students choose appropriate courses", status: "Active" }
   ]);
 
   const [events, setEvents] = useState([
@@ -55,15 +65,10 @@ const CollegeDashboard = () => {
   const quickStats = [
     { label: "Total Students", value: students.length.toString(), icon: Users, color: "text-primary" },
     { label: "Active Courses", value: courses.length.toString(), icon: BookOpen, color: "text-secondary" },
-    { label: "Pending Admissions", value: admissions.filter(a => a.status === 'pending').length.toString(), icon: GraduationCap, color: "text-accent" },
+    { label: "Active Workshops", value: workshops.length.toString(), icon: Presentation, color: "text-accent" },
     { label: "Upcoming Events", value: events.filter(e => new Date(e.date) > new Date()).length.toString(), icon: Calendar, color: "text-success" }
   ];
 
-  const handleAdmissionDecision = (id: number, decision: 'approved' | 'rejected') => {
-    setAdmissions(prev => prev.map(admission => 
-      admission.id === id ? { ...admission, status: decision } : admission
-    ));
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,7 +77,7 @@ const CollegeDashboard = () => {
         <div className="section-container">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2">College Dashboard</h1>
-            <p className="text-white/90 text-lg">Manage students, courses, admissions, and campus activities</p>
+            <p className="text-white/90 text-lg">Manage students, courses, events, and workshops</p>
           </div>
         </div>
       </div>
@@ -184,57 +189,95 @@ const CollegeDashboard = () => {
             </CardContent>
           </Card>
 
-          {/* Admission Requests */}
+          {/* Post Admission Information */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center">
-                  <GraduationCap className="mr-2 h-5 w-5 text-accent" />
-                  Admission Requests
+                  <FileText className="mr-2 h-5 w-5 text-accent" />
+                  Post Admission Information
                 </span>
-                <Badge variant="secondary">{admissions.filter(a => a.status === 'pending').length} pending</Badge>
+                <Button size="sm" data-testid="button-add-post-admission-info">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Info
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {admissions.filter(a => a.status === 'pending').slice(0, 3).map((admission) => (
-                  <div key={admission.id} className="p-4 border rounded-lg">
+                {postAdmissionInfo.slice(0, 3).map((info) => (
+                  <div key={info.id} className="p-4 border rounded-lg">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <h4 className="font-semibold" data-testid={`text-applicant-name-${admission.id}`}>{admission.applicantName}</h4>
-                        <p className="text-sm text-muted-foreground">{admission.course}</p>
+                        <h4 className="font-semibold" data-testid={`text-post-admission-title-${info.id}`}>{info.title}</h4>
+                        <p className="text-sm text-muted-foreground">{info.description}</p>
                       </div>
-                      <Badge variant="outline">Score: {admission.testScore}</Badge>
+                      <Badge variant="outline">{info.type}</Badge>
                     </div>
-                    <div className="text-xs text-muted-foreground mb-3">
-                      Applied: {admission.applicationDate}
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        className="text-green-600 border-green-600"
-                        onClick={() => handleAdmissionDecision(admission.id, 'approved')}
-                        data-testid={`button-approve-admission-${admission.id}`}
-                      >
-                        <GraduationCap className="mr-1 h-3 w-3" />
-                        Approve
+                    <div className="flex space-x-2 mt-3">
+                      <Button size="sm" variant="outline" data-testid={`button-edit-post-admission-${info.id}`}>
+                        <Edit className="mr-1 h-3 w-3" />
+                        Edit
                       </Button>
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        className="text-red-600 border-red-600"
-                        onClick={() => handleAdmissionDecision(admission.id, 'rejected')}
-                        data-testid={`button-reject-admission-${admission.id}`}
-                      >
+                      <Button size="sm" variant="outline" data-testid={`button-view-post-admission-${info.id}`}>
                         <Eye className="mr-1 h-3 w-3" />
-                        Reject
+                        View Details
                       </Button>
                     </div>
                   </div>
                 ))}
-                <Button variant="outline" className="w-full" data-testid="button-view-all-admissions">
-                  View All Applications ({admissions.length})
+                <Button variant="outline" className="w-full" data-testid="button-view-all-post-admission">
+                  View All Information ({postAdmissionInfo.length})
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Workshops */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <span className="flex items-center">
+                  <Presentation className="mr-2 h-5 w-5 text-purple-600" />
+                  Workshops
+                </span>
+                <Button size="sm" data-testid="button-add-workshop">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create Workshop
+                </Button>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {workshops.slice(0, 3).map((workshop) => (
+                  <div key={workshop.id} className="p-4 border rounded-lg">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h4 className="font-semibold" data-testid={`text-workshop-title-${workshop.id}`}>{workshop.title}</h4>
+                        <p className="text-sm text-muted-foreground">Instructor: {workshop.instructor}</p>
+                      </div>
+                      <Badge variant="outline">{workshop.participants} participants</Badge>
+                    </div>
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-3">
+                      <span className="flex items-center">
+                        <Calendar className="mr-1 h-3 w-3" />
+                        {workshop.date}
+                      </span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button size="sm" variant="outline" data-testid={`button-edit-workshop-${workshop.id}`}>
+                        <Edit className="mr-1 h-3 w-3" />
+                        Edit
+                      </Button>
+                      <Button size="sm" variant="outline" data-testid={`button-view-workshop-${workshop.id}`}>
+                        <Eye className="mr-1 h-3 w-3" />
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+                <Button variant="outline" className="w-full" data-testid="button-view-all-workshops">
+                  View All Workshops ({workshops.length})
                 </Button>
               </div>
             </CardContent>
