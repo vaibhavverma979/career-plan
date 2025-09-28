@@ -9,6 +9,10 @@ import LandingPage from "@/pages/LandingPage";
 import LoginPage from "@/pages/LoginPage";
 import RegistrationPage from "@/pages/RegistrationPage";
 import StudentDashboard from "@/pages/StudentDashboard";
+import NGODashboard from "@/pages/NGODashboard";
+import CounselorDashboard from "@/pages/CounselorDashboard";
+import TeacherDashboard from "@/pages/TeacherDashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
 import AICareerChat from "@/pages/AICareerChat";
 import ScholarshipAI from "@/pages/Scholarshipaii";
 import CollegeSearch from "@/pages/CollegeSearch";
@@ -32,6 +36,10 @@ const App = () => (
               <Route path="/login/:role" element={<LoginPage />} />
               <Route path="/register/:role" element={<RegistrationPage />} />
               <Route path="/student/dashboard" element={<StudentDashboard />} />
+              <Route path="/ngo/dashboard" element={<NGODashboard />} />
+              <Route path="/counselor/dashboard" element={<CounselorDashboard />} />
+              <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/student/career-ai" element={<AICareerChat />} />
               <Route path="/student/scholarship-ai" element={<ScholarshipAI />} />
               <Route path="/student/colleges" element={<CollegeSearch />} />
